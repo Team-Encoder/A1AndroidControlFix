@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.android.SimpsonsControllerFix" android:sharedUserId="android.uid.system"  android:versionCode="2">
+
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"
+        tools:ignore="ProtectedPermissions" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.VIRTUAL_INPUT_DEVICE" />
+    <uses-permission android:name="android.permission.ACCESS_SURFACE_FLINGER"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.RECOVERY"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_CACHE_FILESYSTEM"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.REBOOT"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
+    <uses-permission android:name="android.permission.INJECT_EVENTS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MASTER_CLEAR"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MAINLINE_NETWORK_STACK" />
+    <uses-permission android:name="android.permission.ACCESS_MTP"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.NET_ADMIN"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.NET_TUNNELING"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_STACK"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.CONTROL_KEYGUARD"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.LOOP_RADIO"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MANAGE_VOICE_KEYPHRASES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_BROADCAST_RADIO"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.USE_RESERVED_DISK"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WRITE_SECURITY_LOG"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.BLUETOOTH_MAP"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.ACCESS_BLUETOOTH_SHARE" />
+    <uses-permission android:name="android.permission.UPDATE_APP_OPS_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MANAGE_APP_OPS_MODES"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.DIAGNOSTIC"
+        tools:ignore="ProtectedPermissions" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+    android:persistent="true" android:usesNonSdkApi="true" android:extractNativeLibs="true" android:process="com.TeamEncoder.ControlFix">
+
+        <activity
+            android:name="com.android.SimpsonsControllerFix.MainActivity"
+            android:configChanges=""
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.default"/>
+            </intent-filter>
+        </activity>
+
+        <receiver android:name="com.android.SimpsonsControllerFix.StartupReceiver">
+            <intent-filter android:priority="900">
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".ControllerService"
+            android:enabled="true" android:exported="true" >
+            <intent-filter android:priority="900">
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.android.SimpsonsControllerFix.ControllerService"/>
+            </intent-filter>
+        </service>
+
+
+
+    </application>
+
+</manifest>

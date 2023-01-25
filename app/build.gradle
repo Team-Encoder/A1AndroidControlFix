@@ -1,0 +1,85 @@
+plugins {
+    id 'com.android.application'
+}
+
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    // Hack to copy our 'app' into the lib folder so it's executable
+    tasks.withType(com.android.build.gradle.tasks.ExternalNativeBuildTask) {
+        compileTask -> compileTask.finalizedBy {
+            task copyNativeLibarmhf(type: Copy) {
+                println "Copying file from ${rootProject.projectDir}"
+                from  "${rootProject.projectDir}/app/build/intermediates/ndkBuild/release/obj/local/armeabi-v7a/controlfix"
+                into "${rootProject.projectDir}/app/build/intermediates/ndkBuild/release/obj/local/armeabi-v7a/"
+                include "controlfix"
+                rename { String fileName ->
+                    fileName.replace("controlfix","libcontrolfix.so")
+                }
+            }
+
+            task copyNativeLibarm64(type: Copy) {
+                dependsOn copyNativeLibarmhf
+                println "Copying file from ${rootProject.projectDir}"
+                from  "${rootProject.projectDir}/app/build/intermediates/ndkBuild/release/obj/local/arm64-v8a/controlfix"
+                into "${rootProject.projectDir}/app/build/intermediates/ndkBuild/release/obj/local/arm64-v8a/"
+                include "controlfix"
+                rename { String fileName ->
+                    fileName.replace("controlfix","libcontrolfix.so")
+                }
+            }
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.android.SimpsonsControllerFix"
+        minSdkVersion 26
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    externalNativeBuild {
+        ndkBuild {
+            path file('src/main/jni/Android.mk')
+        }
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+    ndkVersion '23.0.7599858'
+}
+
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.media2:media2:1.0.0-alpha04'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+}
+
+
